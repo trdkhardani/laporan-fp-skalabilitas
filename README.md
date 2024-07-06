@@ -31,6 +31,7 @@
   - [Monitoring Sistem](#monitoring-sistem)
   - [Load Testing Sistem](#load-testing-sistem)
   - [Analisis dan Kesimpulan](#analisis-dan-kesimpulan)
+  - [Kendala](#kendala)
 
 ## Pendahuluan
 Pada FP mata kuliah Skalabilitas dan Reliabilitas Sistem, kami diminta membuat sistem [sentiment analysis](https://github.com/rinormaloku/k8s-mastery) yang lebih scalable menggunakan banyak nodes. Kami menggunakan **k3s** sebagai kubernetes distribution yang lebih ringan dan cepat.
@@ -182,3 +183,12 @@ k3s kubectl apply -f service-sa-logic.yaml
 ## Load Testing Sistem
 
 ## Analisis dan Kesimpulan
+
+## Kendala
+Awalnya, aplikasi berjalan sebagaimana seharusnya dengan menggunakan port 8010 untuk reverse proxy ke **sa-frontend**, dan port 8080 untuk reverse proxy ke sa-webapp. Pada waktu itu, pods untuk **sa-web-app** dan **sa-logic**, masing-masing yang running atau berjalan hanya satu dari dua. Namun, ketika kami cek pods untuk melakukan konfigurasi monitoring yang dimana ternyata semua pods sudah running atau berjalan, tiba-tiba sa-frontend tidak dapat melakukan fetch ke sa-webapp karena masalh CORS. Berikut adalah error yang muncul:
+
+![error-cors](/images/error-cors.png)
+
+Beberapa pertemuan sebelumnya dalam perkuliahan, kami menemui masalah serupa, yaitu menggunakan port selain 80 untuk reverse proxy dan terjadi error CORS. Kami berhasil menyelesaikan masalah tersebut dengan mengganti ke port 80 berdasarkan saran dari Pak Fuad selaku dosen pengampu mata kuliah ini. Saat ini, masalahnya terletak pada port 80 yang secara 'misterius' digunakan oleh service tertentu, benar-benar tidak bisa dilakukan override dengan Nginx bahkan Docker. Berikut adalah tampilan error saat kami mencoba mengakses URL VM kami dengan port 80:
+
+![error-port-80](/images/error-port-80.png)
