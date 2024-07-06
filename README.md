@@ -30,25 +30,19 @@
       - [Jalankan file .yaml untuk deployment dan service sa-logic di VM Worker](#jalankan-file-yaml-untuk-deployment-dan-service-sa-logic-di-vm-worker)
   - [Monitoring Sistem](#monitoring-sistem)
       - [Instalasi Helm](#Instalasi-Helm)
+      - [Menyiapkan Monitoring Environment](#Menyiapkan-Monitoring-Environment)
+        - [Tambahkan Helm Stable Charts untuk mesin lokal](#Tambahkan-Helm-Stable-Charts-untuk-mesin-lokal.)
+        - [Menambahkan repositori Helm dari prometheus ke mesin lokal](#Menambahkan-repositori-Helm-dari-prometheus-ke-mesin-lokal)
+        - [Membuat namespace tempat kita menginstall prometheus](#Membuat-namespace-tempat-kita-menginstall-prometheus)
+        - [Install kube-prometheus stack](#Install-kube-prometheus-stack)
+        - [Cek Pod](#Cek-Pod)
+      - [Enable akses eksternal ke Infrastruktur](#Enable-akses-eksternal-ke-Infrastruktur)
+      - [Buka Grafana untuk Memonitoring](#Buka-Grafana-untuk-Memonitoring)
   - [Load Testing Sistem](#load-testing-sistem)
+   - [Instalasi Locust](#Instalasi-Locust)
+   - [Hasil Load Testing Locust](#Hasil-Load-Testing-Locust)
   - [Analisis dan Kesimpulan](#analisis-dan-kesimpulan)
   - [Kendala](#kendala)
- 
-## Monitoring Sistem
-### Instalasi Helm
-### Menyiapkan Monitoring Environment
-#### Tambahkan Helm Stable Charts untuk mesin lokal.
-#### Menambahkan repositori Helm dari prometheus ke mesin lokal
-#### Membuat namespace tempat kita menginstall prometheus
-#### Install kube-prometheus stack
-#### Cek Pod
-
-### Enable akses eksternal ke Infrastruktur
-### Buka Grafana untuk Memonitoring
-
-## Load Testing Sistem
-### Instalasi Locust
-### Hasil Load Testing Locust
 
 ## Pendahuluan
 Pada FP mata kuliah Skalabilitas dan Reliabilitas Sistem, kami diminta membuat sistem [sentiment analysis](https://github.com/rinormaloku/k8s-mastery) yang lebih scalable menggunakan banyak nodes. Kami menggunakan **k3s** sebagai kubernetes distribution yang lebih ringan dan cepat.
