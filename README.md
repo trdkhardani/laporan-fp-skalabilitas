@@ -179,10 +179,119 @@ k3s kubectl apply -f service-sa-logic.yaml
 ```
 
 ## Monitoring Sistem
+### Instalasi Helm
+
+```
+curl -fsSL -o get_helm.sh \ https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 
+
+chmod 700 get_helm.sh 
+
+./get_helm.sh
+```
+### Menyiapkan Monitoring Environment
+#### Tambahkan Helm Stable Charts untuk mesin lokal.
+```
+helm repo add stable https://charts.helm.sh/stable
+```
+#### Menambahkan repositori Helm dari prometheus ke mesin lokal
+```
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+```
+#### Membuat namespace tempat kita menginstall prometheus
+```
+kubectl create namespace prometheus
+```
+#### Install kube-prometheus stack
+```
+helm install stable prometheus-community/kube-prometheus-stack --version 48.3.1 -n prometheus
+```
+#### Cek Pod
+```
+kubectl get pods -n prometheus
+kubectl get svc -n prometheus
+```
+![image](https://github.com/trdkhardani/laporan-fp-skalabilitas/assets/99706251/f8a742cb-96ab-4028-8b7b-94060c6e8957)
+![image](https://github.com/trdkhardani/laporan-fp-skalabilitas/assets/99706251/2c609d6b-b274-466a-93c3-60793c2450b1)
+
+### Enable akses eksternal ke Infrastruktur
+untuk melakukan hal tersebut, kita harus mengedit service Prometheus dan Grafana
+```
+kubectl edit svc stable-kube-prometheus-sta-prometheus -n prometheus
+kubectl edit svc stable-grafana -n prometheus
+```
+lalu ubah Type menjadi 'LoadBalancer' pada kedua service
+![image](https://github.com/trdkhardani/laporan-fp-skalabilitas/assets/99706251/64baff10-27f6-48fb-a0de-8422ce97a00b)
+
+### Buka Grafana untuk Memonitoring
+Dikarenakan alamat ip eksternal grafana tidak muncul, kami melakukan forward proxy dari CLUSTER-IP grafana
+![image](https://github.com/trdkhardani/laporan-fp-skalabilitas/assets/99706251/cbfbf576-a12b-49e0-bab9-ff8b613d5801)
+![image](https://github.com/trdkhardani/laporan-fp-skalabilitas/assets/99706251/103707e9-c1ac-4329-8270-7e8b07e66d3d)
+
+pada dashboard grafana tidak muncul hasil analisis dikarenakan kami mendapatkan kendala dimana webnya tiba-tiba error.
+![image](https://github.com/trdkhardani/laporan-fp-skalabilitas/assets/99706251/d75d7c22-aae2-432a-908c-a87eaf0d60e2)
+
 
 ## Load Testing Sistem
+### Instalasi Locust
+Pada bagian testing ini kami menggunakan locust, dimana kita diharuskan menginstall ```pip install locust``` terlebih dahulu.
+
+Lalu bisa membuat file locust.py
+```
+from locust import HttpUser, task, between
+
+class HelloWorldUser(HttpUser):
+    wait_time = between(0.5, 2.5)
+    # a = 0
+    # b = 0
+    # c = 0 
+
+    @task
+    def test_index(self):
+        response = self.client.get('/')
+        message = response.json()['message']
+        # print(message)
+        # if message == 'This is server A':
+        #     self.a += 1
+        # elif message == 'This is server B':
+        #     self.b += 1
+        # elif message == 'This is server C':
+        #     self.c += 1
+        
+        # print(f'A: {self.a}, B: {self.b}, C: {self.c}')
+    
+    @task
+    def test_fast(self):
+        self.client.get('/fast')
+    
+    @task
+    def test_slow(self):
+        self.client.get('/slow')
+    
+    @task
+    def test_slow(self):
+        self.client.get('/all')
+
+    @task
+    def test_get_id(self):
+        response = self.client.get('/get/[ID]')
+        message = response.json()['message']
+        # if message == 'A':
+        #     self.a += 1
+        # elif message == 'B':
+        #     self.b += 1
+        # elif message == 'C':
+        #     self.c += 1
+        
+        # print(f'A: {self.a}, B: {self.b}, C: {self.c}')
+```
+### Hasil Load Testing Locust
+Hasilnya disini lagi-lagi tidak ada karena websitenya error
+![image](https://github.com/trdkhardani/laporan-fp-skalabilitas/assets/99706251/8e7f6244-bd56-4ed8-b35f-250e697685f5)
+
 
 ## Analisis dan Kesimpulan
+Pada laporan kali ini kami tidak bisa mendapatkan hasil analisis dan kesimpulan dikarenakan mendapat kendala yang akan dijelaskan secara detail pada seksi "Kendala" berikut.
+
 
 ## Kendala
 Awalnya, aplikasi berjalan sebagaimana seharusnya dengan menggunakan port 8010 untuk reverse proxy ke **sa-frontend**, dan port 8080 untuk reverse proxy ke sa-webapp. Pada waktu itu, pods untuk **sa-web-app** dan **sa-logic**, masing-masing yang running atau berjalan hanya satu dari dua. Namun, ketika kami cek pods untuk melakukan konfigurasi monitoring yang dimana ternyata semua pods sudah running atau berjalan, tiba-tiba sa-frontend tidak dapat melakukan fetch ke sa-webapp karena masalh CORS. Berikut adalah error yang muncul:
