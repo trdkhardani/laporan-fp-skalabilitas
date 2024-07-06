@@ -28,6 +28,9 @@
       - [Lakukan Reverse Proxy ke URL sa-webapp pada k3s (Kubernetes) di VM Worker](#lakukan-reverse-proxy-ke-url-sa-webapp-pada-k3s-kubernetes-di-vm-worker)
       - [Build dan push sa-logic di VM Worker](#build-dan-push-sa-logic-di-vm-worker)
       - [Jalankan file .yaml untuk deployment dan service sa-logic di VM Worker](#jalankan-file-yaml-untuk-deployment-dan-service-sa-logic-di-vm-worker)
+  - [Monitoring Sistem](#monitoring-sistem)
+  - [Load Testing Sistem](#load-testing-sistem)
+  - [Analisis dan Kesimpulan](#analisis-dan-kesimpulan)
 
 ## Pendahuluan
 Pada FP mata kuliah Skalabilitas dan Reliabilitas Sistem, kami diminta membuat sistem [sentiment analysis](https://github.com/rinormaloku/k8s-mastery) yang lebih scalable menggunakan banyak nodes. Kami menggunakan **k3s** sebagai kubernetes distribution yang lebih ringan dan cepat.
@@ -173,3 +176,9 @@ docker push jezz16/sentiment-analysis-logic
 k3s kubectl apply -f sa-logic-deployment.yaml
 k3s kubectl apply -f service-sa-logic.yaml
 ```
+
+## Monitoring Sistem
+
+## Load Testing Sistem
+
+## Analisis dan Kesimpulan
