@@ -192,3 +192,13 @@ Awalnya, aplikasi berjalan sebagaimana seharusnya dengan menggunakan port 8010 u
 Beberapa pertemuan sebelumnya dalam perkuliahan, kami menemui masalah serupa, yaitu menggunakan port selain 80 untuk reverse proxy dan terjadi error CORS. Kami berhasil menyelesaikan masalah tersebut dengan mengganti ke port 80 berdasarkan saran dari Pak Fuad selaku dosen pengampu mata kuliah ini. Saat ini, masalahnya terletak pada port 80 yang secara 'misterius' digunakan oleh service tertentu, benar-benar tidak bisa dilakukan override dengan Nginx bahkan Docker. Berikut adalah tampilan error saat kami mencoba mengakses URL VM kami dengan port 80:
 
 ![error-port-80](/images/error-port-80.png)
+
+Kami sudah memeriksa service yang menggunakan port 80 dengan perintah `sudo lsof -i :80` dan tidak menemukan service yang menggunakan port 80. Kami juga memeriksa dengan perintah `netstat -pln` dan tidak menemukan service apapun yang menggunakan port 80. Berikut adalah hasil dari perintah tersebut:
+
+**VM/Node Master (10.15.40.62):**
+
+![port-80-check-master-node](/images/port-80-check-master-node.png)
+
+**VM/Node Worker (10.15.40.63):**
+
+![port-80-check-worker-node](/images/port-80-check-worker-node.png)
