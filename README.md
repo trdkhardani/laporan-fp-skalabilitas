@@ -1,10 +1,10 @@
 # Laporan Final Project Skalabilitas dan Reliabilitas Sistem
 
 ## Anggota Kelompok
-| NRP | Nama |
-| ------ | ------ |
-| 5027211017 | Arfan Yusran |
-| 5027211049 | Tridiktya Hardani Putra |
+| NRP | Nama | IP Server (VM) |
+| ------ | ------ | ------ |
+| 5027211017 | Arfan Yusran | 10.15.40.63 |
+| 5027211049 | Tridiktya Hardani Putra | 10.15.40.62 |
 
 ## Daftar Isi
 - [Laporan Final Project Skalabilitas dan Reliabilitas Sistem](#laporan-final-project-skalabilitas-dan-reliabilitas-sistem)
@@ -29,18 +29,18 @@
       - [Build dan push sa-logic di VM Worker](#build-dan-push-sa-logic-di-vm-worker)
       - [Jalankan file .yaml untuk deployment dan service sa-logic di VM Worker](#jalankan-file-yaml-untuk-deployment-dan-service-sa-logic-di-vm-worker)
   - [Monitoring Sistem](#monitoring-sistem)
-      - [Instalasi Helm](#Instalasi-Helm)
-      - [Menyiapkan Monitoring Environment](#Menyiapkan-Monitoring-Environment)
-        - [Tambahkan Helm Stable Charts untuk mesin lokal](#Tambahkan-Helm-Stable-Charts-untuk-mesin-lokal.)
-        - [Menambahkan repositori Helm dari prometheus ke mesin lokal](#Menambahkan-repositori-Helm-dari-prometheus-ke-mesin-lokal)
-        - [Membuat namespace tempat kita menginstall prometheus](#Membuat-namespace-tempat-kita-menginstall-prometheus)
-        - [Install kube-prometheus stack](#Install-kube-prometheus-stack)
-        - [Cek Pod](#Cek-Pod)
-      - [Enable akses eksternal ke Infrastruktur](#Enable-akses-eksternal-ke-Infrastruktur)
-      - [Buka Grafana untuk Memonitoring](#Buka-Grafana-untuk-Memonitoring)
+    - [Instalasi Helm](#instalasi-helm)
+    - [Menyiapkan Monitoring Environment](#menyiapkan-monitoring-environment)
+      - [Tambahkan Helm Stable Charts untuk mesin lokal.](#tambahkan-helm-stable-charts-untuk-mesin-lokal)
+      - [Menambahkan repositori Helm dari prometheus ke mesin lokal](#menambahkan-repositori-helm-dari-prometheus-ke-mesin-lokal)
+      - [Membuat namespace tempat kita menginstall prometheus](#membuat-namespace-tempat-kita-menginstall-prometheus)
+      - [Install kube-prometheus stack](#install-kube-prometheus-stack)
+      - [Cek Pod](#cek-pod)
+    - [Enable akses eksternal ke Infrastruktur](#enable-akses-eksternal-ke-infrastruktur)
+    - [Buka Grafana untuk Memonitoring](#buka-grafana-untuk-memonitoring)
   - [Load Testing Sistem](#load-testing-sistem)
-   - [Instalasi Locust](#Instalasi-Locust)
-   - [Hasil Load Testing Locust](#Hasil-Load-Testing-Locust)
+    - [Instalasi Locust](#instalasi-locust)
+    - [Hasil Load Testing Locust](#hasil-load-testing-locust)
   - [Analisis dan Kesimpulan](#analisis-dan-kesimpulan)
   - [Kendala](#kendala)
 
